@@ -1,20 +1,35 @@
-//import 'package:desafio_imc_1/desafio_imc_1.dart' as desafio_imc_1;
 import 'dart:io';
-//import 'package:desafio_imc_1/Pessoa.dart';
+import 'package:desafio_imc_1/Repository/IMc_repository.dart';
 
-void main() {
-  try {
-    print("Digite seu peso");
-    var peso = double.parse(stdin.readLineSync()!);
-    print("Digite sua altura");
-    var altura = double.parse(stdin.readLineSync()!);
+class IMC {
+  var niveis = IMc_repository().retornarImcs();
 
-    if(peso > 0 && altura > 0) print(calculaimc(peso, altura));
-  } catch (e) {
-    print("Não foi possível calcular o imc");
+  int calculaimc(int peso, double altura) {
+    return (peso / (altura * altura)).toInt();
   }
-}
 
-int calculaimc(double peso, double altura) {
-  return (peso / (altura * altura)).toInt();
+  void verificarNivelIMC(int imc) {
+    Map<int, Map<String, dynamic>> nivel = niveis.asMap();
+    for (var item in niveis) {
+      if (item['id'] < 19) {
+        print("Seu Imc esta com Indice de Magreza: $item['id']");
+        return;
+      } else if (item['id'] > 19 && item['id'] < 25) {
+        print("Seu Imc esta com Indice de Peso Normal: $item['id']");
+        return;
+      } else if (item['id'] > 25 && item['id'] < 30) {
+        print("Seu Imc esta com Indice de Sobrepeso: $item['id']");
+        return;
+      } else if (item['id'] > 30 && item['id'] < 35) {
+        print("Seu Imc esta com Indice de Obesidade de grau I: $item['id']");
+        return;
+      } else if (item['id'] > 35 && item['id'] < 40) {
+        print("Seu Imc esta com Indice de Obesidade de grau II: $item['id']");
+        return;
+      } else if (item['id'] > 40) {
+        print("Seu Imc esta com Indice de Obesidade de grau III: $item['id']");
+        return;
+      }
+    }
+  }
 }
